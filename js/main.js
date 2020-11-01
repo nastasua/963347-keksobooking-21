@@ -14,7 +14,7 @@ function getRandomArray(array) {
   }
   arrayValues.length = randomLength;
   return arrayValues;
-};
+}
 
 function createArrayObjects() {
 
@@ -77,12 +77,12 @@ function createArrayObjects() {
         photos: arrayPhotosValues,
       },
       location: {
-          x: locationX,
-          y: locationY,
+        x: locationX,
+        y: locationY,
       }
     };
     return object;
-  };
+  }
 
   let objects = [];
 
@@ -90,12 +90,12 @@ function createArrayObjects() {
     objects[i] = createObject();
   }
   return objects;
-};
+}
 
 let myArrayObjects = createArrayObjects();
 
-function delClass(block, delClass) {
-  block.classList.remove(delClass);
+function delClass(block, delBlockClass) {
+  block.classList.remove(delBlockClass);
 }
 
 delClass(document.querySelector('.map'), 'map--faded');
