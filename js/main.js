@@ -1,12 +1,12 @@
 'use strict';
 
-function getRandomInt(min, max) {
+let getRandomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function getRandomLengthArrayFrom(array) {
+let getRandomLengthArrayFrom = array => {
   let randomLength = getRandomInt(1, array.length);
   let arrayValues = [];
   for (var j = 0; j < randomLength; j++) {
@@ -15,46 +15,49 @@ function getRandomLengthArrayFrom(array) {
   return arrayValues;
 }
 
-function createObjects() {
+let getRandomArrayElement = array => {
+  let randomIndex = getRandomInt(0, array.length);
+  let randomElement = array[randomIndex];
+  return randomElement;
+}
+
+let createObjects = () => {
 
   let numArrayAvatars = [1, 2, 3, 4, 5, 6, 7, 8];
-  function createRandomAvatars() {
+  let createRandomAvatars = () => {
     let numAvatar = numArrayAvatars.splice(0, 1);
     return numAvatar;
   }
 
-  function createObject() {
+  let createObject = () => {
 
-    let avatar = 'img/avatars/user' + '0' + createRandomAvatars() + '.' + 'png';
+    let avatar = `img/avatars/user0${createRandomAvatars()}.png`;
 
     let title = 'Lorem Ipsum';
 
     let cost = getRandomInt(1000, 20000);
 
-    const ARRAY_TYPES = ['palace', 'flat', 'house', 'bungalow'];
-    let randomType = getRandomInt(0, ARRAY_TYPES.length);
+    const TYPES = ['palace', 'flat', 'house', 'bungalow'];
 
-    let type = ARRAY_TYPES[randomType];
+    let type = getRandomArrayElement(TYPES);
 
     let quantityRooms = getRandomInt(0, 400);
 
     let quantityGuests = getRandomInt(0, quantityRooms);
 
-    const ARRAY_TIMES = ['12:00', '13:00', '14:00'];
+    const TIMES = ['12:00', '13:00', '14:00'];
 
-    let randomCheckin = getRandomInt(0, ARRAY_TIMES.length);
-    let checkin = ARRAY_TIMES[randomCheckin];
+    let checkin = getRandomArrayElement(TIMES);
 
-    let randomCheckout = getRandomInt(0, ARRAY_TIMES.length);
-    let checkout = ARRAY_TIMES[randomCheckout];
+    let checkout = getRandomArrayElement(TIMES);
 
-    const ARRAY_FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
-    let arrayFeaturesValues = getRandomLengthArrayFrom(ARRAY_FEATURES);
+    const FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
+    let arrayFeaturesValues = getRandomLengthArrayFrom(FEATURES);
 
     let description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-    const ARRAY_PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
-    let arrayPhotosValues = getRandomLengthArrayFrom(ARRAY_PHOTOS);
+    const PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
+    let arrayPhotosValues = getRandomLengthArrayFrom(PHOTOS);
 
     let locationX = getRandomInt(0, document.querySelector('.map').offsetWidth);
 
@@ -66,7 +69,7 @@ function createObjects() {
       },
       offer: {
         title: title,
-        address: locationX + ',' + locationY,
+        address: `${locationX}, ${locationY}`,
         price: cost,
         type: type,
         rooms: quantityRooms,
@@ -95,13 +98,13 @@ function createObjects() {
 
 let myObjects = createObjects();
 
-function deleteClass(block, deleteBlockClass) {
+let deleteClass = (block, deleteBlockClass) => {
   block.classList.remove(deleteBlockClass);
 }
 
 deleteClass(document.querySelector('.map'), 'map--faded');
 
-function createMapPin(entities) {
+let createMapPin = entities => {
   let fragment = document.createDocumentFragment();
   let containerMapPins = document.querySelector('.map__pins');
   let templateMapPin = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -120,3 +123,5 @@ function createMapPin(entities) {
 }
 
 createMapPin(myObjects);
+
+console.log(myObjects);
