@@ -1,67 +1,56 @@
 'use strict';
 
-let getRandomInt = (min, max) => {
+const getRandomInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
-}
+};
 
-let getRandomLengthArrayFrom = array => {
-  let randomLength = getRandomInt(1, array.length);
-  let arrayValues = [];
-  for (var j = 0; j < randomLength; j++) {
-    arrayValues[j] = array[j];
-  }
-  return arrayValues;
-}
+const resultArray = (array) => array.slice(getRandomInt(1, array.length));
 
-let getRandomArrayElement = array => {
-  let randomIndex = getRandomInt(0, array.length);
-  let randomElement = array[randomIndex];
-  return randomElement;
-}
+const getRandomLengthFrom = (array) => {
+  const randomIndex = getRandomInt(0, array.length);
+  const randomLength = array[randomIndex];
+  return randomLength;
+};
 
-let createObjects = () => {
+const createObjects = () => {
 
-  let numArrayAvatars = [1, 2, 3, 4, 5, 6, 7, 8];
-  let createRandomAvatars = () => {
-    let numAvatar = numArrayAvatars.splice(0, 1);
-    return numAvatar;
-  }
+  const avatarsIndexes = [1, 2, 3, 4, 5, 6, 7, 8];
 
-  let createObject = () => {
+  const createObject = (avatarIndex) => {
 
-    let avatar = `img/avatars/user0${createRandomAvatars()}.png`;
+    const avatar = `img/avatars/user0${avatarIndex}.png`;
 
-    let title = 'Lorem Ipsum';
+    const title = `Lorem Ipsum`;
 
-    let cost = getRandomInt(1000, 20000);
+    const cost = getRandomInt(1000, 20000);
 
-    const TYPES = ['palace', 'flat', 'house', 'bungalow'];
+    const TYPES = [`palace`, `flat`, `house`, `bungalow`];
 
-    let type = getRandomArrayElement(TYPES);
+    const type = getRandomLengthFrom(TYPES);
 
-    let quantityRooms = getRandomInt(0, 400);
+    const quantityRooms = getRandomInt(0, 400);
 
-    let quantityGuests = getRandomInt(0, quantityRooms);
+    const quantityGuests = getRandomInt(0, quantityRooms);
 
-    const TIMES = ['12:00', '13:00', '14:00'];
+    const TIMES = [`12:00`, `13:00`, `14:00`];
 
-    let checkin = getRandomArrayElement(TIMES);
+    const checkin = getRandomLengthFrom(TIMES);
 
-    let checkout = getRandomArrayElement(TIMES);
+    const checkout = getRandomLengthFrom(TIMES);
 
-    const FEATURES = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"];
-    let arrayFeaturesValues = getRandomLengthArrayFrom(FEATURES);
+    const FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
+    const featuresValues = resultArray(FEATURES);
 
-    let description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    const description = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
 
-    const PHOTOS = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
-    let arrayPhotosValues = getRandomLengthArrayFrom(PHOTOS);
+    const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
+    const photosValues = resultArray(PHOTOS);
 
-    let locationX = getRandomInt(0, document.querySelector('.map').offsetWidth);
+    const locationX = getRandomInt(0, document.querySelector(`.map`).offsetWidth);
 
-    let locationY = getRandomInt(130, 630);
+    const locationY = getRandomInt(130, 630);
 
     const object = {
       author: {
@@ -76,9 +65,9 @@ let createObjects = () => {
         guests: quantityGuests,
         checkin: checkin,
         checkout: checkout,
-        features: arrayFeaturesValues,
+        features: featuresValues,
         description: description,
-        photos: arrayPhotosValues,
+        photos: photosValues,
       },
       location: {
         x: locationX,
@@ -86,42 +75,37 @@ let createObjects = () => {
       }
     };
     return object;
-  }
+  };
 
-  let objects = [];
+  const objects = avatarsIndexes.map(createObject);
 
-  for (var i = 0; i < 8; i++) {
-    objects[i] = createObject();
-  }
   return objects;
-}
+};
 
-let myObjects = createObjects();
+const objects = createObjects();
 
-let deleteClass = (block, deleteBlockClass) => {
+const deleteClass = (block, deleteBlockClass) => {
   block.classList.remove(deleteBlockClass);
-}
+};
 
-deleteClass(document.querySelector('.map'), 'map--faded');
+deleteClass(document.querySelector(`.map`), `map--faded`);
 
-let createMapPin = entities => {
-  let fragment = document.createDocumentFragment();
-  let containerMapPins = document.querySelector('.map__pins');
-  let templateMapPin = document.querySelector('#pin').content.querySelector('.map__pin');
-  let imgMapPin = templateMapPin.querySelector('img');
+const createMapPin = (entities) => {
+  const fragment = document.createDocumentFragment();
+  const containerMapPins = document.querySelector(`.map__pins`);
+  const templateMapPin = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
-  entities.forEach(function(entity) {
-    let newMapPin = templateMapPin.cloneNode(true);
-    newMapPin.style.left = entity.location.x + newMapPin.offsetWidth / 2 + 'px';
-    newMapPin.style.top = entity.location.y + newMapPin.offsetHeight + 'px';
+  entities.forEach((entity) => {
+    const newMapPin = templateMapPin.cloneNode(true);
+    const imgMapPin = newMapPin.querySelector(`img`);
+    newMapPin.style.left = entity.location.x + newMapPin.offsetWidth / 2 + `px`;
+    newMapPin.style.top = entity.location.y + newMapPin.offsetHeight + `px`;
     imgMapPin.src = entity.author.avatar;
     imgMapPin.alt = entity.offer.title;
 
     fragment.appendChild(newMapPin);
   });
   containerMapPins.appendChild(fragment);
-}
+};
 
-createMapPin(myObjects);
-
-console.log(myObjects);
+createMapPin(objects);
